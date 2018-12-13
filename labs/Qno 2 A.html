@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<script>
+function showResult()
+{
+var msg=document.getElementById("stringVal").value;
+var spaceCount = (msg.split(" ").length - 1)+1;
+
+alert(spaceCount);
+document.getElementById('theID').value = spaceCount;
+}
+
+</script>
+<h1>String Demo</h1>
+
+<form>
+<label>Enter String: </label>
+<input type="text" size="30" id="stringVal">
+ <br><br>
+ <label>Result:</label>
+  <input type="text" size="30" id="theID">
+<br>
+<br>
+<button onclick=showResult() >Find number of Words (Space Separated)</button>
+</form>
+
+
+
+
+</body>
+</html>

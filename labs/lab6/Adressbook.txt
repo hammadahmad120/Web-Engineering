@@ -1,0 +1,89 @@
+package java7;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+public class AdressDAO {
+	static Connection conn=null;
+	public AdressDAO() throws ClassNotFoundException {
+		config();
+	}
+	public void config() throws ClassNotFoundException
+	{
+			String USERNAME="root";
+		 String PASSWORD="";
+		 String CONN_STRING="jdbc:mysql://localhost/test1";
+				try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection(CONN_STRING,USERNAME,"");
+			System.out.println("connected");
+		} catch (SQLException e) {
+		
+			System.err.println(e);
+		}
+		
+		
+	}
+	
+	public void insertByPreparedStatment(String n,String a,String p,String e) throws SQLException {
+		String sql = "INSERT INTO AdressBook (NAME,ADRESS,PHONE,EMAIL) " + //
+				"VALUES (?, ?, ?, ?);";
+		PreparedStatement preStmt = conn.prepareStatement(sql);
+		preStmt.setString(1,n);
+		preStmt.setString(2,a);
+		preStmt.setString(3,p);
+		preStmt.setString(4,e);
+		System.out.println(preStmt.execute());
+		preStmt.close();
+
+	}
+	public void DeleteByPreparedStatment(String n) throws SQLException {
+		String sql = "DELETE FROM AdressBook  " + //
+				"WHERE NAME=?;";
+		PreparedStatement preStmt = conn.prepareStatement(sql);
+		preStmt.setString(1,n);
+		System.out.println(preStmt.execute());
+		preStmt.close();
+
+	}
+	public void updateByPreparedStatment(String n,String a,String p,String e) throws SQLException {
+		String sql = "UPDATE AdressBook SET NAME=?,ADRESS=?,PHONE=?,EMAIL=? " + //
+				"WHERE NAME=?";
+		PreparedStatement preStmt = conn.prepareStatement(sql);
+		preStmt.setString(1,n);
+		preStmt.setString(2,a);
+		preStmt.setString(3,p);
+		preStmt.setString(4,e);
+		preStmt.setString(5,n);
+		
+		System.out.println(preStmt.execute());
+		preStmt.close();
+
+
+	}
+	public String getAdress(String n) throws SQLException {
+		String rslt="";
+		String sql = "SELECT * FROM ADRESSBOOK WHERE NAME=?;";
+		PreparedStatement preStmt = conn.prepareStatement(sql);
+		preStmt.setString(1,n);
+		ResultSet rs = preStmt.executeQuery();
+		while (rs.next()) {
+			rslt=rs.getString(1);
+			rslt=rslt+",";
+			rslt=rslt+rs.getString(2);
+			rslt=rslt+",";
+			rslt=rslt+rs.getString(3);
+			rslt=rslt+",";
+			rslt=rslt+rs.getString(4);
+		}
+		rs.close();
+		preStmt.close();
+		return rslt;
+	}
+
+
+}

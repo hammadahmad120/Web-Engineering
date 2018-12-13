@@ -1,0 +1,139 @@
+package java7;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.sql.SQLException;
+public class Adress implements ActionListener
+{
+	AdressDAO aobj;
+	JFrame fcal;
+	JFrame myFrame ;
+	JButton add_con,srch_con,del_con,mod_con,bpre,bnext;
+	JLabel lname,ladr,lnum,lemail;
+	JPanel pButtons,ep1,ep2;
+	JTextField name,adr,ph,email;
+	String contact;
+	public Adress() throws ClassNotFoundException
+	{
+		aobj=new AdressDAO();
+		initGUI();
+	}
+	public void initGUI()
+	{
+		
+		fcal=new JFrame();
+		
+		lname=new JLabel("Name:");
+		name=new JTextField(20);
+		ladr=new JLabel("Adress:");
+		adr=new JTextField(20);
+		lnum=new JLabel("Phone:");
+		ph=new JTextField(20);
+		lemail=new JLabel("Email:");
+		email=new JTextField(20);
+	    add_con=new JButton("Save");
+		srch_con=new JButton("Search");
+		del_con=new JButton("Delete");
+		mod_con=new JButton("Update");
+		bpre=new JButton("<<");
+		bnext=new JButton(">>");
+		
+//		pButtons=new JPanel(null);
+//		ep1=new JPanel(new FlowLayout());
+//		ep2=new JPanel(new FlowLayout());
+//		add_con.setBounds(100,50,130,30);
+//		srch_con.setBounds(100,120,130,30);
+//		del_con.setBounds(100,190,130,30);
+//		mod_con.setBounds(100,260,130,30);
+//		
+//		pButtons.add(add_con);
+//		pButtons.add(srch_con);
+//		pButtons.add(del_con);
+//		pButtons.add(mod_con);
+		
+		
+		Container c=fcal.getContentPane();
+		c.setLayout(new FlowLayout());
+		c.add(lname);
+		c.add(name);
+		c.add(ladr);
+		c.add(adr);
+		c.add(lnum);
+		c.add(ph);
+		c.add(lemail);
+		c.add(email);
+		c.add(add_con);
+		c.add(del_con);
+		c.add(mod_con);
+		c.add(bpre);
+		c.add(srch_con);
+		c.add(bnext);
+		
+		fcal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fcal.setSize(300,300);
+		fcal.setVisible(true);
+		
+		 add_con.addActionListener(this);
+		 del_con.addActionListener(this);
+		 mod_con.addActionListener(this);
+		 srch_con.addActionListener(this);
+		
+		
+	}
+	public void actionPerformed(ActionEvent a)
+	{
+		if(a.getSource()==add_con){
+			try {
+				aobj.insertByPreparedStatment(name.getText(),adr.getText(),ph.getText(),email.getText());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		if(a.getSource()==del_con)
+		{
+			try {
+				aobj.DeleteByPreparedStatment(name.getText());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+			
+	if(a.getSource()== mod_con)
+	{
+		try {
+			aobj.updateByPreparedStatment(name.getText(),adr.getText(),ph.getText(),email.getText());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		}
+	
+	if(a.getSource()== srch_con)
+	{
+		try {
+			String r=aobj.getAdress(name.getText());
+			String buffer[];
+			buffer=r.split(",");
+			name.setText(buffer[0]);
+			adr.setText(buffer[1]);
+			ph.setText(buffer[2]);
+			email.setText(buffer[3]);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	}
+//			if(a.getSource()==b1){
+//				contact = tf.getText();
+//				myFrame.setVisible(false);
+//				JOptionPane.showMessageDialog(null,"Contact Added");
+//				
+//			}
+			
+		
+		
+
+			
+	}

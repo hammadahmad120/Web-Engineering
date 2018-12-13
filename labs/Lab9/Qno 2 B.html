@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Qno 2 B</title>
+</head>
+<body>
+
+<script>
+function actionListener() {
+
+var str= document.getElementById("inputText").value;
+var x2 = document.getElementById("inputText2").value;
+var i=str.search(x2);
+if(i==-1)
+alert("not found");
+else
+alert("found");
+
+}
+</script>
+
+<h1>String Demo</h1>
+
+<form>
+<label>Enter a String: </label>
+<textarea id="inputText" rows=1 wrap=on></textarea></br>
+
+<label>Enter a Word:</label>
+<textarea id="inputText2" rows=1 wrap=on></textarea>
+</textarea>
+<br />
+<input type="submit" onclick=actionListener() value="Find word in String" />
+</form>
+
+
+
+</body>
+</html>
